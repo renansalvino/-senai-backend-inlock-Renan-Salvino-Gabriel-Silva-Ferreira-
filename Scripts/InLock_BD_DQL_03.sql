@@ -47,6 +47,11 @@ SELECT	NomeEstudio
 FROM	Estudio 
 WHERE	IdEstudio = @IDestudio
 
+SELECT * from Usuario
+
+
+
+
 
 
 
