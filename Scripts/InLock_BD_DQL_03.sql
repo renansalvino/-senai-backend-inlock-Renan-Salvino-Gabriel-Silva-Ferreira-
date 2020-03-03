@@ -1,4 +1,5 @@
 USE Inlock_Games_Tarde
+
 -- Listar Todos os Usuarios --
 SELECT*FROM Usuario
 
@@ -22,21 +23,29 @@ LEFT JOIN	Jogo
 ON			Jogo.IdEstudio = Estudio.IdEstudio
 
 -- Buscar um usuário por email e senha --
-SELECT Usuario.Email, TipoUsuario.Titulo 
+DECLARE @EMAIL VARCHAR (255)
+		,@SENHA  VARCHAR(255)
+SET		@EMAIL = 'cliente@cliente.com'
+SET		@SENHA = 'cliente'
+SELECT	Usuario.Email, Usuario.Senha,  TipoUsuario.Titulo 
 FROM	Usuario INNER JOIN TipoUsuario
 ON		TipoUsuario.IdTipoUsuario = Usuario.IdTipoUsuario
-WHERE	Email = 'cliente@cliente.com' AND Senha = 'cliente'
+WHERE	Email = @EMAIL AND Senha = @SENHA
 
 
 --Buscar um jogo por IdJogo --
+DECLARE @IDjogo INT
+SET		@IDjogo = 1
 SELECT	NomeJogo,Descricao,DataLancamento,Valor
 FROM	Jogo
-WHERE	IdJogo = 1
+WHERE	IdJogo =  @IDjogo
 
 --Buscar um estúdio por IdEstudio --
+DECLARE @IDestudio INT
+SET		@IDestudio = 3
 SELECT	NomeEstudio 
 FROM	Estudio 
-WHERE	IdEstudio = 3
+WHERE	IdEstudio = @IDestudio
 
 
 
