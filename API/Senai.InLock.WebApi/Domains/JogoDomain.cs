@@ -11,11 +11,11 @@ namespace Senai.InLock.WebApi.Domains
 
         public string NomeJogo { get; set; }
 
-        public string Descrição { get; set; }
+        public string Descricao { get; set; }
 
         public DateTime DataLancamento { get; set; }
 
-        public int Preço { get; set; }
+        public string Valor { get; set; }
 
         public int IdTipoUsuario { get; set; }
 

@@ -10,7 +10,7 @@ namespace Senai.InLock.WebApi.Repositories
 {
     public class JogoRepository : IJogoRepository
     {
-        private string stringConexao = "Data Source=DEV18\\SQLEXPRESS; initial catalog=Inlock_Games_Tarde; integrated security=true;";
+        private string stringConexao = "Data Source=DEV20\\SQLEXPRESS; initial catalog=Inlock_Games_Tarde; integrated security=true;";
 
         public void Atualizar(int id, JogoDomain JogoAtualizado)
         {
