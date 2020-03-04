@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Senai.InLock.WebApi.Domains;
 using Senai.InLock.WebApi.Interfaces;
 using Senai.InLock.WebApi.Repositories;
@@ -12,6 +13,7 @@ namespace Senai.InLock.WebApi.Controllers
         [Produces("application/json")]
 
        [ Route("api/[controller]")]
+      
     public class JogoController : ControllerBase
     {
         private IJogoRepository _jogoRepository { get; set; }
@@ -24,6 +26,7 @@ namespace Senai.InLock.WebApi.Controllers
         /// Lista Todos os Jogos
         /// </summary>
         /// <returns>Retorna uma lista de jogos com status code 200 - Ok </returns>
+        //[Authorize(Roles = "1,2")]
         [HttpGet]
         public IActionResult Get()
         {
@@ -36,12 +39,20 @@ namespace Senai.InLock.WebApi.Controllers
         /// </summary>
         /// <param name="novoJogo"></param>
         /// <returns></returns>
+        /// 
+        //[Authorize(Roles = "2")]
         [HttpPost]
-        public IActionResult Post(JogoDomain novoJogo)
+        public IActionResult Cadastrar(JogoDomain novoJogo )
         {
-            _jogoRepository.Cadastrar(novoJogo);
-
-            return Created("http://localhost:5000/api/Jogos", novoJogo);
+            try
+            {
+                _jogoRepository.Cadastrar(novoJogo);
+                return Ok("Deu bom!");
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
         }
 
 

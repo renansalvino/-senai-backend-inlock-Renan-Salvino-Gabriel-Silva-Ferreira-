@@ -10,7 +10,7 @@ namespace Senai.InLock.WebApi.Repositories
 {
     public class JogoRepository : IJogoRepository
     {
-        private string stringConexao = "Data Source=DEV20\\SQLEXPRESS; initial catalog=Inlock_Games_Tarde; integrated security=true;";
+        private string stringConexao = "Data Source=OFF-WHITE\\SQLEXPRESS; initial catalog=Inlock_Games_Tarde; integrated security=true;";
 
         public void Atualizar(int id, JogoDomain JogoAtualizado)
         {
@@ -132,60 +132,43 @@ namespace Senai.InLock.WebApi.Repositories
                 }
             }
         }
+        
 
         public List<JogoDomain> Listar()
         {
-            List<JogoDomain> jogos = new List<JogoDomain>();
+            var listaJogos = new List<JogoDomain>();
 
-            // Declara a SqlConnection passando a string de conexão
             using (SqlConnection con = new SqlConnection(stringConexao))
             {
-                // Declara a instrução a ser executada
-                string querySelectAll = "SELECT IdJogo, NomeJogo, Descricao, DataLancamento, Valor FROM Jogo";
+                string querySelectAll = "SELECT Jogo.NomeJogo, Estudio.NomeEstudio, Jogo.Valor, Jogo.Descricao, Jogo.DataLancamento FROM Jogo INNER JOIN Estudio ON Estudio.IdEstudio = Jogo.IdEstudio";
 
-                // Abre a conexão com o banco de dados
                 con.Open();
 
-                // Declara o SqlDataReader para receber os dados do banco de dados
                 SqlDataReader rdr;
 
-                // Declara o SqlCommand passando o comando a ser executado e a conexão
                 using (SqlCommand cmd = new SqlCommand(querySelectAll, con))
                 {
-                    // Executa a query e armazena os dados no rdr
                     rdr = cmd.ExecuteReader();
-
-                    // Enquanto houver registros para serem lidos no rdr, o laço se repete
                     while (rdr.Read())
                     {
-                        // Instancia um objeto funcionario 
-                        JogoDomain jogo = new JogoDomain
+                        var jogo = new JogoDomain
                         {
-                            // Atribui à propriedade IdFuncionario o valor da coluna "IdFuncionario" da tabela do banco
-                            IdJogo = Convert.ToInt32(rdr["IdJogo"])
-
-                            // Atribui à propriedade Nome o valor da coluna "Nome" da tabela do banco
-                            ,
-                            NomeJogo = rdr["Nome"].ToString()
-
-                            // Atribui à propriedade Sobrenome o valor da coluna "Sobrenome" da tabela do banco
-                            ,
-                            Descricao = rdr["Descricao"].ToString()
-
-                            // Atribui à propriedade DataNascimento o valor da coluna "DataNascimento" da tabela do banco
-                            ,
-                            DataLancamento = Convert.ToDateTime(rdr["DataLancamento"])
+                            NomeJogo = rdr["NomeJogo"].ToString(),
+                            Descricao = rdr["Descricao"].ToString(),
+                            DataLancamento = Convert.ToDateTime(rdr["DataLancamento"].ToString()),
+                            Valor = rdr["Valor"].ToString(),
+                            NomeEstudio = rdr["NomeEstudio"].ToString()
                         };
-
-                        // Adiciona o funcionario criado à lista funcionarios
-                        jogos.Add(jogo);
+                        listaJogos.Add(jogo);
                     }
                 }
+                return listaJogos;
             }
+        }
 
-            // Retorna a lista de funcionarios
-            return jogos;
+
+           
         }
     }
-}
+
 
